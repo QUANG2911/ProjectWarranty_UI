@@ -101,4 +101,8 @@ export class SidenavComponent implements OnInit{
     }
   }
 
+  TransDataToData(routeLinkName : string)
+  {
+    this.dataService.setData({chooseItemNav: routeLinkName});
+  }
 }

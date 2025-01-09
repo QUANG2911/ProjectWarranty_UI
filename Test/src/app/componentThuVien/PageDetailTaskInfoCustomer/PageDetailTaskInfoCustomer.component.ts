@@ -17,15 +17,16 @@ import { MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import { LiveAnnouncer} from '@angular/cdk/a11y';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Notification, Title } from '../../Key/KeyNotice';
-import { DetailCustomerDeviceListItem } from '../../Model/DetailCustomerDevice.Model';
+import { DetailTaskListRepairDone } from '../../Model/DetailTaskListRepairDone.Model';
+
 
 @Component({
-  selector: 'app-page-detail-customer-list-device',
+  selector: 'app-page-detail-task-info-customer',
   imports: [MatFormFieldModule,FormsModule,MatIconModule,FormsModule,CommonModule,MatButtonModule,MatTableModule,MatPaginatorModule,MatSortModule],
-  templateUrl: './PageDetailCustomerListDevice.component.html',
-  styleUrl: './PageDetailCustomerListDevice.component.css'
+  templateUrl: './PageDetailTaskInfoCustomer.component.html',
+  styleUrl: './PageDetailTaskInfoCustomer.component.css'
 })
-export class PageDetailCustomerListDeviceComponent implements OnInit{
+export class PageDetailTaskInfoCustomerComponent implements OnInit{
   dataDetail: { [key: string]: string | number |Date}={};
 
   private _liveAnnouncer = inject(LiveAnnouncer);
@@ -37,25 +38,25 @@ export class PageDetailCustomerListDeviceComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   // keyDetail = Detail;
   
-  keyTrans = CustomerInfo.filter(p =>p.field === 'CustomerName' || p.field === 'CustomerPhone' || p.field === 'CustomerEmail' || p.field === 'CustomerAdrress');
+  keyTrans = CustomerInfo.filter(p =>p.field === 'CustomerName' || p.field === 'CustomerPhone' || p.field === 'StatusTask' || p.field === 'ReasonBringFix');
+  amountKey : number = this.keyTrans.length;
   // lấy dữ liệu của API gửi lên
   idCustomer : number =0;
 
   idUser: number =0;
-
-  itemsToShow: number[] = [];
-
-  ELEMENT_DATA: DetailCustomerDeviceListItem[] = [];
+  idTask: number = 0;
+  status: number = 0;
+  
+  totalAmount : number = 0;
+  ELEMENT_DATA: DetailTaskListRepairDone[] = [];
 
   dataNotice = Notification;
   dataTilte = Title;
 
-  displayedColumns: string[] = ['IdDevice','CustomerDevice','IdWarrantReport','DateOfWarrant','TimeEnd'];
+  displayedColumns: string[] = ['RepairPartName','Price','Amount'];
   dataSource: any;             
 
   readonly dialog = inject(MatDialog);
-
-  originalData: DetailCustomerDeviceListItem[] = []; 
   
   constructor(
               private dataService :DataService,
@@ -72,23 +73,24 @@ export class PageDetailCustomerListDeviceComponent implements OnInit{
     }
   }
 
-  getDataFromCustomerPage()
+  getDataFormExitFormPage()
   {
     this.dataService.getData();
     this.dataService.currentData.subscribe((data) => {
       if (data) {  // Kiểm tra data 
-        this.idCustomer = data.idCustomer;
+        this.idTask = data.idTask;
+        this.status = data.status;
       }
       else {
         console.error('Data or maPhieu không có');
       }
     this.idUser = this.dataService.getUserId();
-    console.log("idUser:" + this.idUser+ "/idCustomer:" +this.idCustomer);
+    console.log("idUser:" + this.idUser+ "/idTask:" +this.idTask);
     });
   }
   ngOnInit(): void {      
-    this.getDataFromCustomerPage(); 
-    this.getDetailsCustomerDevices(this.idUser, this.idCustomer);
+    this.getDataFormExitFormPage(); 
+    this.getDetailsTask(this.idTask);
     this.fetchData();
   }
 
@@ -100,32 +102,33 @@ export class PageDetailCustomerListDeviceComponent implements OnInit{
     },300); // Giả lập thời gian tải dữ liệu
   }
 
-  getDetailsCustomerDevices(idCustomer: number, idUser : number)
+  getDetailsTask(idTask: number)
   {
-    this.api.getDetailCustomerListDevice(idCustomer,idUser)
+    this.api.getDetailTaskListRepairPartsDone(idTask)
     .subscribe(
       (data) => {
-         console.log(data);
-         this.ELEMENT_DATA = data.toDeviceList as DetailCustomerDeviceListItem[];
+         console.log(data.toRepairPartList);
+         this.ELEMENT_DATA = data.toRepairPartList as DetailTaskListRepairDone[];
 
           // nạp dữ liệu vào table
-         this.dataSource = new MatTableDataSource<DetailCustomerDeviceListItem>(this.ELEMENT_DATA);
+         this.dataSource = new MatTableDataSource<DetailTaskListRepairDone>(this.ELEMENT_DATA);
 
           this.dataDetail['CustomerName'] = this.ELEMENT_DATA[0].CustomerName;
           this.dataDetail['CustomerPhone'] = this.ELEMENT_DATA[0].CustomerPhone;
-          this.dataDetail['CustomerEmail'] = this.ELEMENT_DATA[0].CustomerEmail;
-          this.dataDetail['CustomerAdrress'] = this.ELEMENT_DATA[0].CustomerAdrress;
-          
-          this.originalData = this.ELEMENT_DATA;
-
-          console.log(this.originalData);     
+          this.dataDetail['ReasonBringFix'] = this.ELEMENT_DATA[0].ReasonBringFix;
+          // if ( == 0)
+          //   this.dataDetail['StatusTask'] = "Đang xử lý";
+          // else if(this.ELEMENT_DATA[0].StatusTask == 1)
+            this.dataDetail['StatusTask'] = this.ELEMENT_DATA[0].StatusTask;
+          this.totalAmount = this.ELEMENT_DATA.reduce((sum,item) => sum + (item.Amount*item.Price),0)
+          console.log("totalAmount" + this.totalAmount);
       }
     ); 
   }
 
   ReturnExitPage()
   {
-    this.router.navigate(['/mainApp/customer']);
+    this.router.navigate(['/mainApp/task']);
+    this.dataService.setData({chooseItemNav: 'task'});
   }
-
 }

@@ -121,7 +121,7 @@ html{
     margin-top: 46px; /* vì header đang dùng position dạng Fixed nên slider lúc đầu sẽ bị header đè lên 1 khoảng
                         ta tạo margin top sẽ giúp slider lúc đầu k bị header che*/
     padding-top: 50%; /* 50% chiều ngang của chính nó khi thay đổi*/
-    background: url('http://localhost:4200/customerPage/public/img5.png') cover no-repeat ; 
+    background: url(../assert/img1.png)top center/ cover no-repeat ; 
     background-size: 100%; /*xét kích thước của ảnh*/
     position: relative;
 }
@@ -161,7 +161,7 @@ html{
 {
     margin-top: 24px;
     padding-top: 50%;
-    background: url(/Test/src/assets/img/img2.png) top center/ cover no-repeat ; 
+    background: url(../assert/img6.png) top center/ cover no-repeat ; 
     background-size: 100%;
     position: relative;
 }
@@ -280,7 +280,7 @@ html{
     width: 50%; 
     display: block;
     padding-top: 24%;
-    background: url(/Test/src/assets/img/img3.png) top center / cover no-repeat;
+    background: url(../assert/img3.png) top center / cover no-repeat;
     background-size: 61%;
     position: relative;
     justify-self: center;

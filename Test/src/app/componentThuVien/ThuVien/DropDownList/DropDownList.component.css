@@ -15,12 +15,12 @@
         box-shadow: 5px 5px 5px #ccc;
         cursor: pointer;
         position: relative;
-        min-width: 120px;
+        min-width: 150px;
         
         #dropdown{
             display: none;
             position: absolute;
-            min-width: 100px;
+            min-width: 150px;
             height: auto;
             max-height: 400px;
             overflow:auto ;
@@ -43,6 +43,7 @@
                     height: 32px;
                     padding: 3px 17px;
                     display: block;
+                    width: 149px;
                     border: 1px solid #ccc;
                     &:hover{
                         background-color: #f3f3f3;

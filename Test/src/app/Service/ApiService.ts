@@ -14,7 +14,7 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   ////////////////////////////API TASK MANAGER//////////////////////////////
-  getDetailTaskListRepairPartsDone(idTask: string): Observable<any> {
+  getDetailTaskListRepairPartsDone(idTask: number): Observable<any> {
     return this.http.get(this.baseUrl +'RepairManagement/ReadRepairDone/' + idTask);
   }
 
@@ -22,7 +22,7 @@ export class ApiService {
     return this.http.post<any>(this.baseUrl + 'RepairManagement/CreateRepairManagement' ,data);
   }
 
-  getListTask(userId : string): Observable<any>
+  getListTask(userId : number): Observable<any>
   {
     return this.http.get(this.baseUrl +'RepairManagement/ListRepairManagement/' + userId);
   }

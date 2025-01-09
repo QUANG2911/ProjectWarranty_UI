@@ -9,6 +9,7 @@ import { PageManagementWarrantyComponent } from './componentThuVien/PageManageme
 import { PageManagementCustomerComponent } from './componentThuVien/PageManagementCustomer/PageManagementCustomer.component';
 import { PageManagementTaskComponent } from './componentThuVien/PageManagementTask/PageManagementTask.component';
 import { PageDetailCustomerListDeviceComponent } from './componentThuVien/PageDetailCustomerListDevice/PageDetailCustomerListDevice.component';
+import { PageDetailTaskInfoCustomerComponent } from './componentThuVien/PageDetailTaskInfoCustomer/PageDetailTaskInfoCustomer.component';
 
 
 
@@ -29,7 +30,9 @@ export const routes: Routes = [
 
             /////////Task////////
             {path: 'task',component:PageManagementTaskComponent},
-            { path: '', redirectTo: 'customer', pathMatch: 'full' },
+            {path: 'detailTaskInfoCustomer', component:PageDetailTaskInfoCustomerComponent},
+            
+            {path: '', redirectTo: 'customer', pathMatch: 'full' },
         ]
     },
     {path: 'customerPage', component: PageCustomerComponent},
