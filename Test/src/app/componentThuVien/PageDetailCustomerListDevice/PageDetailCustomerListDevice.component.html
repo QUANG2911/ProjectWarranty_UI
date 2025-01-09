@@ -1,0 +1,76 @@
+<h1 style="  margin-bottom: 2px;   margin-top: -27px;">Chi tiết thông tin khách hàng</h1>
+<div class="card">
+    <div class="card-head">
+        <p class="head-title">Thông tin khách hàng</p>
+        <a class="goBack-head" (click)="ReturnExitPage()">
+            Go back
+        </a>
+    </div>
+    <div class="card-body">
+        <table class="styled-table">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Thông tin</th>
+                <th>Nội dung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of keyTrans; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.label }}</td>
+                <td>{{ dataDetail[item.field]}}</td>
+              </tr>
+            </tbody>
+          </table> 
+    </div>
+  </div>
+  
+<div class="card">
+    <div class="card-head">
+        <p class="head-title">Thông tin sản phẩm khách hàng mua</p>
+    </div>
+    <div class="card-body">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+                matSort (matSortChange)="announceSortChange($event)" 
+        >
+            <ng-container matColumnDef="IdDevice" class="hidden-column">
+              <th mat-header-cell *matHeaderCellDef> No.</th>
+              <td mat-cell *matCellDef="let element"> {{element.IdDevice}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="CustomerDevice" class="hidden-column">
+                <th mat-header-cell *matHeaderCellDef> Thiết bị</th>
+                <td mat-cell *matCellDef="let element"> {{element.CustomerDevice}} </td>
+              </ng-container>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="IdWarrantReport">
+              <th mat-header-cell *matHeaderCellDef> Mã phiếu bảo hành </th>
+              <td mat-cell *matCellDef="let element"> {{element.IdWarrantReport}} </td>
+            </ng-container>
+            
+            <!-- Ngày mua Column -->
+            <ng-container matColumnDef="DateOfWarrant">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header DateOfWarrant> Ngày mua sản phẩm </th>
+                <td mat-cell *matCellDef="let element">{{element.DateOfWarrant | date:'dd/MM/YYYY' }}</td>
+            </ng-container>
+            <!-- Position Column -->
+            <ng-container matColumnDef="TimeEnd">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header TimeEnd> Ngày hết hạn bảo hành</th>
+                <td mat-cell *matCellDef="let element">{{element.TimeEnd | date:'dd/MM/YYYY' }}</td>
+            </ng-container>
+            
+            
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>       
+      </div>
+     <!-- nút page xử lý -->
+          <!-- <mat-paginator [pageSizeOptions]=  "[5, 10, 20]" -->
+        <mat-paginator [pageSizeOptions]="[3]"
+            showFirstLastButtons
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+</div>

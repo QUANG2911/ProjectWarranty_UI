@@ -1,0 +1,488 @@
+/* RESET WEB */
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html{
+    scroll-behavior: smooth; /*dùng để tạo hiệu ứng cuộn màn hình khi di chuyển ở các phím tắt*/
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.text-white
+{
+    color: #000 !important;
+}
+/* NGUYÊN TẮC LÀM VIỆC
+    1. TỪ NGOÀI VÀO TRONG
+    2. TỪ TRÊN XUỐNG DƯỚI
+    3. TỔNG QUAN ĐẾN CHI TIẾT
+*/
+
+
+/* THỨ CẦN XÉT KHI LÀM 1 THUỘC TÍNH
+
+    1. Vị trí
+    2. Kích thước ( weight, height )
+    3. Màu sắc
+    4. Kiểu dáng ( kiểu chữ, hình tròn, vuông,...)
+*/
+
+#header
+{
+    height : 46px;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1; /*xét độ sâu của thuộc tính để nó k bị ảnh ở slider đè lên*/
+}
+
+#nav
+{
+    display: inline-block;
+}
+#nav, .subnav
+{
+    list-style-type: none;
+}
+
+#nav li  /* đi theo cấp */
+{
+    display: inline-block;  /* Vì bth ul là dạng list nên mình phải đổi nó qua inline cho cùng hàng ngang và Block để giữ lại định dạng khối cho dễ thao tác */
+    position: relative;
+}
+
+#nav > li > a /* xét những cái hàm a thôi con của a k bị xét*/
+{
+    color: black;
+    text-transform: uppercase; /* chuyển dạng chữ thành in hoa*/
+}
+#nav li a
+{
+    text-decoration: none; /* bỏ định dạng mặc định gạch chân của a */
+    line-height: 46px; /* là cái đường bôi đen chữ đây là mẹo để căn chữ ở giữa khi làm Header  */
+    padding: 0 24px; /* dựa vào mẫu web mik xem*/
+    display: inline-block;  /* Vì bth ul là dạng list nên mình phải đổi nó qua inline cho cùng hàng ngang và Block để giữ lại định dạng khối cho dễ thao tác */
+}
+
+
+#nav .subnav li:hover a, /* vì hai cái hàm này đều dùng chung 1 cái hàm giống nhau nên có thể viết vậy*/
+#nav > li:hover > a /* khi ta hover vào thẻ con li của nav, thì con của li là a được thiết lập định dạng hover mình thiết lập*/
+{
+    color: white ;
+    background-color: #4CAF4F ;
+    display: block;
+    
+}
+
+
+#header .menu-mobi,
+#header .search-button
+{
+    float: right ; /* đẩy giá trị về nằm cuối góc phải*/ 
+}
+
+#header .menu-mobi,
+#header .ti-search
+{
+    color: white;
+    font-size: 20px;
+    line-height: 46px;
+    padding: 0 20px;
+    display: block;
+}
+
+/* ẩn cái nút menu đi khi nó ở dạng tablet hoặc máy tính */
+#header .menu-mobi
+{
+    position: absolute;
+    display: none;
+    top: 0;
+    right: 0;
+}
+
+#header .menu-mobi:hover,
+#header .ti-search:hover
+{
+    background-color: gainsboro;
+    color: black;
+    cursor: pointer; /*thuộc tính thay đổi hình dạng con chuột*/
+    
+}
+/* HEADER END */
+
+#slider
+{
+    margin-top: 46px; /* vì header đang dùng position dạng Fixed nên slider lúc đầu sẽ bị header đè lên 1 khoảng
+                        ta tạo margin top sẽ giúp slider lúc đầu k bị header che*/
+    padding-top: 50%; /* 50% chiều ngang của chính nó khi thay đổi*/
+    background: url('http://localhost:4200/customerPage/public/img5.png') cover no-repeat ; 
+    background-size: 100%; /*xét kích thước của ảnh*/
+    position: relative;
+}
+
+#slider .text-content
+{
+    position: absolute;
+    color: rgb(224, 222, 222);
+    bottom: 30px;
+    /* Cách căn giữa chữ*/
+    left: 0;
+    right: 0;
+    text-align: center;
+    /*  */
+}
+
+#slider .text-heading
+{
+    font-weight: 300;
+    /* margin: 10px; */
+}
+
+#slider .text-description
+{
+    font-weight: 200;
+}
+
+/* band - section */
+#content .content-section
+{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#content .band-img
+{
+    margin-top: 24px;
+    padding-top: 50%;
+    background: url(/Test/src/assets/img/img2.png) top center/ cover no-repeat ; 
+    background-size: 100%;
+    position: relative;
+}
+#content .section-heading
+{
+    font-size: 47px;
+    font-weight: 600; /*độ dày chữ*/
+    letter-spacing: 3px ;/*khoảng cách kí tự trong chữ*/
+    text-align: center;
+}
+
+
+#content .section-sub-heading
+{
+    font-size: 15px;
+    margin-top: 20px;
+    margin-bottom: 35px;
+    text-align: center;
+    font-style: italic;
+    color: rgb(106, 107, 103);
+}
+
+#content .about-text
+{
+    text-align: justify; /*căn đều 2 phía của đoạn văn*/
+    line-height: 1.5; /*độ cao của một dòng*/
+    
+}
+
+#content .member-list
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#content .member-item
+{
+    margin-top: 48px;
+    text-align: center;
+    flex: 30%;
+    /* float: left;
+    width: calc(100% / 3); /* chia đều vị trí khung cho các item trong list của mik
+    text-align: center; để cho chữ và hình đều đc căn giữa */
+}
+
+#content .member-name
+{
+    font-size: 15px;
+}
+
+#content .member-img
+{
+    margin-top: 15px;
+    width: 154px; /* khi đặt Width thì k cần Hight vì nó được đặt theo tỉ lệ, ngược lại với hight cũng vậy*/
+    border-radius: 7px; /*tạo viền bo tròn cho hình*/
+} 
+
+/* Tour section */
+
+
+#content .book-ticket-list
+{
+    background-color: #fff;
+}
+
+#content .book-ticket-list li
+{
+    color: rgb(112, 112, 117);
+    font-size: 15px;
+    padding: 11px 16px; /* chỉ là cấu hình của web và làm theo*/
+    border-bottom: 1px solid rgb(114, 111, 111); /* tạo đường viền dưới trong khung*/
+    list-style-type: none;
+}
+
+
+#content .Sold-out
+{
+    background-color: red;
+    color: white;
+    padding: 4px 4px;
+    margin-left: 16px ;
+}
+
+#content .quatity
+{
+    background-color: black;
+    float: right; /* biến 1 thẻ inline thành thẻ Block*/
+    width: 24px;
+    height: 24px;
+    color: #fff;
+    text-align: center;
+    line-height: 24px;
+    border-radius: 50px; /*tạo hình tròn*/
+    margin-top: -3px ; /*có thẻ float mới sài đc số âm*/
+
+}
+
+.tour-place-list
+{
+    margin: 35px 0;
+    /* thủ thuật giúp kéo căng hai phía trái phải của list */
+    margin-left: -8px;
+    margin-right: -8px;
+    display: flex;
+}
+
+.tour-place-list .tour-item
+{
+    /* width: calc(100%/3);
+    float: left; */
+    padding: 0 8px;
+ 
+}
+.tour-place-list .place-img
+{
+    width: 50%; 
+    display: block;
+    padding-top: 24%;
+    background: url(/Test/src/assets/img/img3.png) top center / cover no-repeat;
+    background-size: 61%;
+    position: relative;
+    justify-self: center;
+}
+
+.tour-place-list .place-about
+{
+    width: 100%;
+    background-color: #fff;
+    padding: 15px;
+}
+
+.place-about .place-heading
+{
+    font-size: 22px;
+    margin-bottom: 10px;
+    justify-self: center;
+}
+
+.place-about .place-date
+{
+    font-size: 15px;
+    color: rgb(180, 178, 173);
+    margin-bottom: 10px;
+}
+
+.place-about .place-info
+{
+    font-size: 15px;
+    color:#000;
+    text-align: justify;
+    margin-bottom: 20px;
+}
+
+.place-about .button-buy-ticket
+{
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 10px;
+}
+
+.place-about .button-buy-ticket:hover
+{
+    background-color: rgb(153, 148, 148);
+    color: black;
+}
+
+
+/* contact */
+
+.contact-info
+{
+    display: inline-block;
+    margin-top: 11px;
+    height: 200px;
+}
+.contact-info .info-list
+{
+    color: black;
+    list-style-type: none;
+    font-size: 17px;
+    font-weight: 550;
+}
+
+.contact-info .text
+{
+    display: inline-block;
+    padding-left: 11px;
+}
+
+.contact-input
+{
+    float: right;
+}
+
+.contact-input .label-name,
+.contact-input .label-mail
+{
+    height: 30px;
+    width: 48%;
+}
+
+.contact-input .label-name
+{
+    margin-right: 9px;
+    margin-bottom: 5px;
+}
+
+.contact-input .label-message
+{
+    display: block;
+    height: 30px;
+    width: 100%;
+}
+
+.contact-input .bt-spend
+{
+    float: right;
+    margin-top: 15px;
+    color: white;
+    background-color: black;
+    height: 35px;
+    width: 68px;
+    pointer-events: painted;
+}
+
+.contact-input .bt-spend:hover
+{
+    opacity: 0.6;
+}
+
+.map-content
+{
+    background-color: black;
+}
+.content-section .map
+{
+    width: 100%;    
+}
+
+
+/* BREAK POINT */
+/* mobi */
+@media screen and (max-width: 46.25em)
+{
+    #header
+    {
+        overflow: hidden; /* Ẩn tất cả con có kích thước vượt quá kích thước của cha*/
+    }
+
+    
+    #header .search-button
+    {
+        display: none;
+    }
+
+    /* để cho kích thước hover của các thể thuộc nav full chiều ngang đt */
+    #nav
+    {
+        display: block;
+    }
+
+    /* hiện #header khi ở dạng đt */
+    #header .menu-mobi
+    {
+        display: block;
+    }
+
+    #nav > li  
+    {
+        display: block; 
+        /* border-bottom: solid 1px white;  */
+    }
+
+    /* để cho thằng con đầu là dạng inLine vì k cần bấm vào chiều ngang của nó */
+    #nav > li:first-child
+    {
+        display: inline-block;
+    }
+
+    #nav .subnav
+    {
+        position: relative; /*trên mobi thì thằng con k cần để absolute nữa nên chỉ chuyển dạng position cho nó là đc*/
+    }
+
+    #nav .subnav li 
+    {
+        padding: 5px 26px
+    }
+
+    
+    #content .about-text {
+        width: 667px;
+        margin-left: 18px;
+    }
+
+    .member-list
+    {
+        flex-direction: column;
+    }
+    .tour-place-list
+    {
+        flex-direction: column;
+    }
+    
+    .tour-item {
+        width: 55%;
+        margin-bottom: 21px;
+        margin-left: 130px;
+    }
+
+    .book-ticket-list
+    {
+        width: 84%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    #info-list .contact 
+    {
+        flex-direction: column;
+    }
+}

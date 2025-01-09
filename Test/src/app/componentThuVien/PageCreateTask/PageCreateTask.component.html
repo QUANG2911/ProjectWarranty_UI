@@ -1,0 +1,82 @@
+ <p class="Title-Page">Phiếu đăng ký sửa chữa thiết bị</p>
+    <div class="Container" style="display: flex; margin-top: -30px;">
+        
+        <div class="card">
+            <span class="fa fa-uer p-2" style="margin-left: 89%;" (click)="Out()">
+                <mat-icon style="padding-left: 5px;">clear</mat-icon>
+            </span>
+            <mat-stepper labelPosition="bottom" #stepper>
+                <mat-step [stepControl]="firstFormGroup">
+                    <form [formGroup]="firstFormGroup">
+                        <ng-template matStepLabel>Điền thông tin cá nhân</ng-template>
+                        <div class="InputTem">
+                            <mat-form-field>
+                                <mat-label>Họ tên khách hàng</mat-label>
+                                <input matInput placeholder="Ex:Nguyễn Văn A" formControlName="firstCtrl" required  #inputNameCustomer>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Số điện thoại</mat-label>
+                                <input matInput placeholder="Ex:0898xx04xx" formControlName="firstCtrl" required #inputCustomerPhone >
+                            </mat-form-field>
+            
+                            <mat-form-field>
+                                <mat-label>Email khách hàng </mat-label>
+                                <input matInput placeholder="Ex:anv@gmail.com" formControlName="firstCtrl" required #inputCustomerEmail >
+                            </mat-form-field>
+    
+                            <mat-form-field>
+                                <mat-label>Địa chỉ khách hàng</mat-label>
+                                <input matInput placeholder="Ex:Tp.Thủ Đức, Tp.Hồ Chí Minh" formControlName="firstCtrl" required #inputCustomerAddress >
+                            </mat-form-field>
+                            <!-- <mat-form-field>
+                                <mat-label>Loại container</mat-label>
+                                <mat-select #inputLoai >
+                                <mat-option *ngFor="let item of TYPECONTAINER_DATA" [value]="item.idTypeContainer" (click)="CheckContainerType(inputLoai,inputMaISO)">
+                                    {{ item.nameTypeContainer }}
+                                </mat-option>
+                                </mat-select>
+                            </mat-form-field> -->
+    
+                        </div>
+                        
+                        <div>
+                            <button mat-button matStepperNext>Next</button>
+                        </div>
+                    </form>
+                </mat-step>
+                <mat-step [stepControl]="secondFormGroup" optional>
+                <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Thông tin thiết bị sửa</ng-template>
+                        <div class="InputTem2">
+                            <mat-form-field>
+                                <mat-label>Loại thiết bị cần sửa</mat-label>
+                                <mat-select #inputDeviceType >
+                                    <mat-option value="1">Máy tính</mat-option>
+                                    <mat-option value="2">Loa</mat-option>
+                                    <mat-option value="3">Máy lạnh</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+    
+                            <mat-form-field>
+                                <mat-label>Nguyên nhân thiết bị hỏng</mat-label>
+                                <textarea matInput placeholder="Ex. Bị lỗi mạch..."  formControlName="secondCtrl" #inputResonFix></textarea>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Mã phiếu bảo hành</mat-label>
+                                <input matInput placeholder="Ex:123" formControlName="secondCtrl" required #inputIdWarranty >
+                            </mat-form-field>
+                        </div>
+                    <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset()">Reset</button>
+                    <button mat-button (click)="FetchDataForApi(inputNameCustomer,inputCustomerPhone,inputCustomerEmail,inputCustomerAddress,inputDeviceType,inputResonFix,inputIdWarranty)">Done</button>
+                    </div>
+                </form>
+                </mat-step>
+            </mat-stepper>  
+        </div>
+        <div class="place-img"></div>
+    </div>
+    
+
+    

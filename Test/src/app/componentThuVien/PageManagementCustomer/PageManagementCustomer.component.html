@@ -1,0 +1,90 @@
+<h1>Danh sách khách hàng</h1>
+  <div class="card">
+    <div class="card-head">
+        <p class="head-title">Active khách hàng</p>
+        <div class="head-content-left">
+            <div class="search-container">
+                <div class="normal-sreach">
+                    <input #inputCustomerName
+                        type = "search" class="sreach"  placeholder="Nhập tên khách hàng"
+                        (input)="SearchCustomerName(inputCustomerName)"
+                    />
+                    <mat-icon class="sreach-icon">find_in_page</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-indicator">
+        <!-- Hiển thị khi đang tải -->
+        <p>Loading, please wait...</p>
+    </div>
+    
+    <div *ngIf="!isLoading">
+      <!-- Hiển thị dữ liệu sau khi tải -->
+      <div class="card-body">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"  
+        >
+            <!-- Position Column -->
+            <ng-container matColumnDef="number">
+              <th mat-header-cell *matHeaderCellDef> # </th>
+              <td mat-cell *matCellDef="let element"> {{element.IdCusomer}} </td>
+            </ng-container>
+          
+          
+            <!-- tên khách hàng Column -->
+            <ng-container matColumnDef="CustomerName">
+              <th mat-header-cell *matHeaderCellDef> Tên khách hàng </th>
+              <td mat-cell *matCellDef="let element"> {{element.CustomerName}} </td>
+            </ng-container>
+          
+            <!-- Số điện thoại Column -->
+            <ng-container matColumnDef="CustomerPhone">
+              <th mat-header-cell *matHeaderCellDef> Số điện thoại </th>
+              <td mat-cell *matCellDef="let element"> {{element.CustomerPhone}} </td>
+            </ng-container>
+
+            <!-- Email Column -->
+            <ng-container matColumnDef="CustomerEmail">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.CustomerEmail}} </td>
+              </ng-container>
+
+             <!-- địa chỉ Column -->
+             <ng-container matColumnDef="CustomerAddress">
+                <th mat-header-cell *matHeaderCellDef> Địa chỉ </th>
+                <td mat-cell *matCellDef="let element"> {{element.CustomerAdrress}} </td>
+              </ng-container>
+
+          
+            <!-- button action Column -->
+            <ng-container  matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-fab extended class="button"
+                      (click) = "TransformPageDetailCustomer(element.IdCusomer)" 
+                      routerLink= "/mainApp/customerDetail"                                          
+                    >                        
+                      <div class="button-title">
+                        <mat-icon class="button-icon">description</mat-icon>
+                        <span>Details</span> 
+                      </div>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>          
+      </div>
+      <!-- nút page xử lý -->
+      <!-- <mat-paginator [pageSizeOptions]=  "[5, 10, 20]" -->
+        <mat-paginator [pageSizeOptions]="[8]"
+            showFirstLastButtons>
+        </mat-paginator>
+    </div>
+    
+  </div>
+
+
+
