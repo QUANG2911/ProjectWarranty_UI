@@ -78,9 +78,14 @@
                               </div>
                           </ng-template>
                           <ng-template #caseChuaNhan>
-                              <div class="ChuaNhan" *ngIf="element.StatusTask=== -1">
+                              <div class="ChuaNhan" *ngIf="element.StatusTask=== -1 else caseDaHuy">
                                   <span class="title-ChuaNhan">Chưa nhận</span>  
                               </div>
+                          </ng-template>
+                          <ng-template #caseDaHuy>
+                            <div class="DaHuy" *ngIf="element.StatusTask=== 2">
+                                <span class="title-DaHuy">Đã hủy</span>  
+                            </div>
                           </ng-template>
                       </td>
                   </ng-container>

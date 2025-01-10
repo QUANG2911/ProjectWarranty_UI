@@ -30,6 +30,7 @@ export class DropDownListComponent implements OnInit {
     {name: 'Trạng thái', value: -2},
     {name: 'Đã xử lý', value: 1},
     {name: 'Đang xử lý', value: 0},
+    {name: 'Đã hủy', value: 2},
     {name: 'Chưa nhận', value: -1},
   ];
 

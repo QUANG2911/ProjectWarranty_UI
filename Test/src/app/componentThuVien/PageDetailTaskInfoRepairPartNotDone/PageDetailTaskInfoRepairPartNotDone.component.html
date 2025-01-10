@@ -45,7 +45,7 @@
             <ng-container matColumnDef="choose">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Choose </th>
                 <td mat-cell *matCellDef="let element">
-                    <mat-checkbox (click)="checkIfSelected(element.IdRepairPart,element.Price)" ></mat-checkbox>
+                    <mat-checkbox  (click)="checkIfSelected(element.IdRepairPart,element.Price)"  ></mat-checkbox>
                 </td>
             </ng-container>
 
@@ -53,9 +53,28 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
         </table>       
-        <!-- <mat-paginator [pageSizeOptions]="[3]"
+        <mat-paginator [pageSizeOptions]="[4]"
             showFirstLastButtons
             aria-label="Select page of periodic elements">
-        </mat-paginator> -->
-      </div>
+        </mat-paginator>
+    </div>
+    <div class="card-body">
+        <div class="card-button">
+            <button mat-fab extended class="button" 
+              (click)="UpdateStatus(1)">                        
+              <div class="button-title">
+                <mat-icon class="button-icon">assignment_turned_in</mat-icon>
+                <span>Thanh toán</span> 
+              </div>
+            </button>
+            <button mat-fab extended class="button" 
+              (click)="UpdateStatus(2)"                                         
+            >                        
+              <div class="button-title">
+                <mat-icon class="button-icon">assignment_late</mat-icon>
+                <span>Từ chối</span> 
+              </div>
+            </button>
+          </div>
+    </div>
 </div>

@@ -43,7 +43,7 @@ import { identity } from 'rxjs';
             CommonModule,
             MatSelectModule,
             MatTableModule,
-            //MatPaginator,
+            MatPaginator,
             MatSortModule, 
             MatPaginatorModule,
             MatCardModule, MatCheckboxModule, FormsModule,
@@ -59,7 +59,7 @@ export class PageDetailTaskInfoRepairPartNotDoneComponent implements OnInit{
   ){
   }
 
-idUser: string ="";
+idUser: number = 0;
 
 ELEMENT_DATA: RepairPart[] = [];
 
@@ -69,14 +69,14 @@ dataSource: any;
 originalData: RepairPart[] = []; 
 
  //hàm list page
-//  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
  // keyDetail = Detail;
  
 idTask: number = 0;
 total:  number = 0;
+status : number = 0;
 dataNotice = Notification;
 dataTilte = Title;
-item !: string ;
 
 ////////////check box////////////
 dsSelectContainer : selectList[] = [] ;
@@ -95,7 +95,7 @@ getDataFormExitForm()
   this.dataService.currentData.subscribe(data =>{
     if(data != null)  
     {
-      this.idTask = data.idTask;     
+      this.idTask = data.idTask;   
     }        
     else 
       console.log("Không có idUser truyền qua");
@@ -105,7 +105,7 @@ getDataFormExitForm()
 
 ngOnInit(): void {
   this.getDataFormExitForm();
-  this.getRepairPartList(this.idUser);
+  this.getRepairPartList();
   this.fetchData();
   
 }
@@ -113,7 +113,7 @@ ngOnInit(): void {
 fetchData() {
   // Mô phỏng việc lấy dữ liệu từ API
   setTimeout(() => {
-    //this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   },500); // Giả lập thời gian tải dữ liệu
 }
@@ -127,7 +127,7 @@ announceSortChange(sortState: Sort) {
   }
 }
 
-getRepairPartList(idUser: string)
+getRepairPartList()
 {
   this.api.getRepairPartList()
   .subscribe(
@@ -135,10 +135,11 @@ getRepairPartList(idUser: string)
       if(data != null)
       {
         this.ELEMENT_DATA = data.toListRepairPast as RepairPart[];
-
+        
         // nạp dữ liệu vào table
         this.dataSource = new MatTableDataSource<RepairPart>(this.ELEMENT_DATA);
 
+        console.log(this.ELEMENT_DATA);
         this.originalData = this.ELEMENT_DATA;
 
       }           
@@ -162,13 +163,13 @@ SearchRepairPart(inputRepairPartName : any)
 TakeAmount(inputAmount: any, idRepairPart: number, price: number) {
   console.log("price:", price, "/inputAmount:", inputAmount.value);
 
-  const index = this.dsSelectContainer.findIndex(p => p.idRepairPart === idRepairPart);
+  const index = this.dsSelectContainer.findIndex(p => p.IdRepairPart === idRepairPart);
   if (index === -1) {
     console.error("Không tìm thấy phần tử với idRepairPart:", idRepairPart);
     return;
   }
 
-  const currentAmount = Number(this.dsSelectContainer[index]?.amount) || 0;
+  const currentAmount = Number(this.dsSelectContainer[index]?.Amount) || 0;
   const validPrice = !isNaN(price) ? price : 0;
 
   // Trừ đi giá trị hiện tại
@@ -178,7 +179,7 @@ TakeAmount(inputAmount: any, idRepairPart: number, price: number) {
 
   if (inputAmount.value !== null) {
     const newAmount = Number(inputAmount.value) || 0;
-    this.dsSelectContainer[index].amount = newAmount;
+    this.dsSelectContainer[index].Amount = newAmount;
 
     if (newAmount > 0) {
       this.total = this.total + validPrice * newAmount;
@@ -189,21 +190,18 @@ TakeAmount(inputAmount: any, idRepairPart: number, price: number) {
   this.dataService.setData({idTask: this.idTask, totalAmount: this.total}); 
 }
 
- 
-
-
 checkIfSelected(idRepairPart : number, price: number)
 {
-    let index = this.dsSelectContainer.filter(p=> p.idRepairPart === idRepairPart)
+    let index = this.dsSelectContainer.filter(p=> p.IdRepairPart === idRepairPart)
 
     if(index.length > 0)
     {
-      this.dsSelectContainer = this.dsSelectContainer.filter(p => p.idRepairPart != idRepairPart);
-      this.total = this.total - price * Number(index[0].amount);
+      this.dsSelectContainer = this.dsSelectContainer.filter(p => p.IdRepairPart != idRepairPart);
+      this.total = this.total - price * Number(index[0].Amount);
     }
     else
     {
-      this.dsSelectContainer.push({idRepairPart:idRepairPart,amount:0,price:price});
+      this.dsSelectContainer.push({IdRepairPart:idRepairPart,Amount:0,Price:price});
       // this.total = this.total + price;
       this.TakeAmount(0,idRepairPart,price)
     }
@@ -211,9 +209,39 @@ checkIfSelected(idRepairPart : number, price: number)
 }
 
 
+UpdateStatus(status: number)
+{
+    let width: string = '300px';
+    let susscess: boolean = true;
+    let title: any = '';
+    let content: any = '';
+    let typeNotification: number = 1;
+
+    this.status = status
+
+    this.dsSelectContainer = this.dsSelectContainer.filter(item =>item.Amount !== 0);
+
+    if(status == 1)
+    {
+      width = '400px';
+      title = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
+      content = this.dataNotice.find(n => n.field === 'ConfirmApproval')?.label.toString(); 
+    }
+    else if (status == 2)
+    {
+      width = '400px';
+      title = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
+      content = this.dataNotice.find(n => n.field === 'ConfirmRejection')?.label.toString(); 
+    }
+   
+    
+    this.GetNotification(title,content,typeNotification,width,susscess);
+}
+
 GetNotification(title: any, content: any, typeNotification : number, width: string, susscess: boolean)
 {
-  //this.dataService.setData({TilteThongBao: title, maNhap: "", NoiDungThongBao : content, LoaiThongBao: typeNotification,idUser: this.idUser,idContainer:this.idContainer });
+  this.dataService.setData({TilteThongBao: title, maNhap: "", NoiDungThongBao : content, LoaiThongBao: typeNotification,idUser: this.idUser,idTask:this.idTask });
+  
   this.openDialogApi('0ms', '0ms',width,susscess);
 }
 
@@ -231,20 +259,26 @@ openDialogApi(enterAnimationDuration: string, exitAnimationDuration: string, wid
       if (result !== undefined) // nếu chọn No là undefined
       {
         console.log("tạo thành công");
-        // this.api.postNewPhieuXuat(this.idUser,this.idContainer,this.exitContainerFormToCreateNew).subscribe(
-        //   (reponse) => {
-        //     console.log("Api thành công: "+reponse);
-        //     let title: any = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
-        //     let content: any = this.dataNotice.find(n => n.field === 'CreateSuccess')?.label.toString();
-        //     this.GetNotification(title,content,2,'400px',false);
-        //     this.router.navigate(['/mainApp/ExitContainerForm']);
-        //   },
-        //   (error) =>{
-        //     let title: any = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
-        //     let content: any = this.dataNotice.find(n => n.field === 'CreateFail')?.label.toString();
-        //     this.GetNotification(title,content,2,'400px',false);
-        //   }
-        // );
+        const body = { // dựa theo request chuỗi json được cấu hình bên proto
+          // IdTask: idTask,
+          // IdStaff: userId,
+          // StatusTask: statusTask,
+          toListUpdateRepairPart: this.dsSelectContainer
+        };
+        this.api.putTaskNotDoneToDone(this.idUser,this.idTask,this.status,body).subscribe(
+          (reponse) => {
+            console.log("Api thành công: "+reponse);
+            let title: any = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
+            let content: any = this.dataNotice.find(n => n.field === 'UpdateStatusSuccess')?.label.toString();
+            this.GetNotification(title,content,2,'400px',false);
+            this.router.navigate(['/mainApp/task']);
+          },
+          (error) =>{
+            let title: any = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
+            let content: any = this.dataNotice.find(n => n.field === 'ApprovalError')?.label.toString();
+            this.GetNotification(title,content,2,'400px',false);
+          }
+        );
       }
       else
       {

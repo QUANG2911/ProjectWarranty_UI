@@ -22,7 +22,10 @@
                 <td *ngIf="item.field == 'StatusTask';Else CaseNot">
                     <div class="ChoDuyet" *ngIf="dataDetail[item.field] === 0; else case1"><span class="title-cho">Đang xử lý</span> </div>
                     <ng-template #case1>
-                      <div class="DaDuyet" *ngIf="dataDetail[item.field] === 1"><span class="title-duyet">Đã xử lý</span></div>
+                      <div class="DaDuyet" *ngIf="dataDetail[item.field] === 1; else case2"><span class="title-duyet">Đã xử lý</span></div>
+                    </ng-template>
+                    <ng-template #case2>
+                      <div class="DaHuy" *ngIf="dataDetail[item.field] === 2" else case2><span class="title-DaHuy">Đã hủy</span></div>
                     </ng-template>
                 </td>
                 <ng-template #CaseNot> 
@@ -39,7 +42,7 @@
     </div>
   </div>
   
-<app-page-detail-task-info-repair-part-done *ngIf="status === 1;else CaseNotDone"></app-page-detail-task-info-repair-part-done>
+<app-page-detail-task-info-repair-part-done *ngIf="status !== 0;else CaseNotDone"></app-page-detail-task-info-repair-part-done>
 
 <ng-template #CaseNotDone>
   <app-page-detail-task-info-repair-part-not-done></app-page-detail-task-info-repair-part-not-done>

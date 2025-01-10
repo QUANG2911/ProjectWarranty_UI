@@ -76,3 +76,40 @@
     font-size: larger;
     padding-left: 8px;
   }
+
+  .card-button{
+    display: flex;
+    width: 100%;
+    /* justify-content: flex-end; */
+    position: absolute;
+    margin-top: -84px;
+    margin-left: 18px;
+
+    .button {
+      border: 0px;
+      background-color: #43A046  ;
+      border-radius: 0.625rem;
+      padding: 0px 10px;
+      height: 39px;
+      margin-right:24px;
+      margin-bottom: 10px;
+    }
+    
+    .button:hover
+    {
+      background-color: #81C784;
+      border-radius: 0.625rem;
+    }
+    
+    .button-title {
+      display: flex;
+      align-items: center;
+      /* height: 3rem; */
+      font-weight: bold;
+      justify-content: center;
+      width: 100px;  
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+

@@ -32,9 +32,9 @@ export class ApiService {
     return this.http.get(this.baseUrl +'RepairManagement/ReadRepairCustomer/' + idTask);
   }
 
-  putTaskNotDoneToDone(userId : string): Observable<any>
+  putTaskNotDoneToDone(userId : number, idTask: number, statusTask: number, data: any): Observable<any>
   {
-    return this.http.put(this.baseUrl + 'RepairManagement/???????/' + userId ,{});
+    return this.http.put(this.baseUrl + 'RepairManagement/UpdateRepairManagement/' + userId +'/'+idTask+'/'+statusTask,data);
   }
    ////////////////////////////API RepairPart//////////////////////////////
   getRepairPartList(): Observable<any>

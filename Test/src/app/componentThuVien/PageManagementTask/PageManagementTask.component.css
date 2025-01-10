@@ -92,7 +92,8 @@
   
     .ChuaNhan,
     .ChoDuyet,
-    .DaDuyet{
+    .DaDuyet,
+    .DaHuy{
       display: flex;
       padding: 6px 6px;
       align-items: center;
@@ -102,7 +103,8 @@
   
       .title-ChuaNhan,
       .title-cho,
-      .title-duyet{
+      .title-duyet,
+      .title-DaHuy{
         font-size: 13px;
         font-family: 'Poppins', sans-serif;
         font-weight: bold;
@@ -125,8 +127,16 @@
       }
     }
   
+    .DaHuy{
+      background-color: #bcbaba;
+      border: solid 1px #333;
+      .title-DaHuy{
+        color: #111111;
+      }
+    }
+
     .ChuaNhan{
-      background-color: #FFC5C5;
+      background-color: #999999;
       border: solid 1px #DF0404;
       .title-ChuaNhan{
         color: #DF0404;

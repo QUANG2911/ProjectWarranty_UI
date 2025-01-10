@@ -1,12 +1,12 @@
 export class selectList {
-    idRepairPart!: number;
-    amount!: number;
-    price!: number;
+    IdRepairPart!: number;
+    Amount!: number;
+    Price!: number;
 
-    constructor(idRepairPart: number, amount: number, price: number)
+    constructor(IdRepairPart: number, Amount: number, Price: number)
     {
-        this.idRepairPart = idRepairPart;
-        this.amount = amount;
-        this.price = price;
+        this.IdRepairPart = IdRepairPart;
+        this.Amount = Amount;
+        this.Price = Price;
     }
 }

@@ -8,8 +8,8 @@ export const Notification = [
     ////////////////////////////////UPDATE PHIẾU//////////////////////////////////
     { field: 'UpdateStatusSuccess', label: "Bạn đã cập nhật trạng thái thành công" },
     { field: 'ApprovalError', label: "Đã xảy ra lỗi duyệt phiếu! Vui lòng thử lại." },
-    { field: 'ConfirmApproval', label: "Bạn có muốn duyệt đơn này" },
-    { field: 'ConfirmRejection', label: "Bạn có chắc từ chối đơn này" },
+    { field: 'ConfirmApproval', label: "Bạn có muốn duyệt task này" },
+    { field: 'ConfirmRejection', label: "Bạn có chắc từ chối task này" },
     ///////////////////////////////////Login/////////////////////////////////////
     { field: 'EmployeeNotFound', label: "Không tồn tại tài khoản nhân viên này" },
     { field: 'LoginNotFound', label: "Không tồn tại tài khoản này" },
