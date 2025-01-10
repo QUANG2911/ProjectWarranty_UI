@@ -3,7 +3,7 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule} from '@angular/material/form-field';
-import { CommonModule, formatDate, formatNumber } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { CustomerInfo } from '../../Key/KeyInformationContainer';
 import { ApiService } from '../../Service/ApiService';
 import {MatButtonModule} from '@angular/material/button';
@@ -17,18 +17,13 @@ import { LiveAnnouncer} from '@angular/cdk/a11y';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Notification, Title } from '../../Key/KeyNotice';
 import { DetailTaskListRepairDone } from '../../Model/DetailTaskListRepairDone.Model';
-import { PageDetailTaskInfoRepairPartDoneComponent } from "../PageDetailTaskInfoRepairPartDone/PageDetailTaskInfoRepairPartDone.component";
-import { DetailTaskCustomer } from '../../Model/DetailTaskCustomer.Model';
-import { PageDetailTaskInfoRepairPartNotDoneComponent } from "../PageDetailTaskInfoRepairPartNotDone/PageDetailTaskInfoRepairPartNotDone.component";
-
-
 @Component({
-  selector: 'app-page-detail-task-info-customer',
-  imports: [MatFormFieldModule, FormsModule, MatIconModule, FormsModule, CommonModule, MatButtonModule, MatTableModule, MatPaginatorModule, MatSortModule, PageDetailTaskInfoRepairPartDoneComponent, PageDetailTaskInfoRepairPartNotDoneComponent],
-  templateUrl: './PageDetailTaskInfoCustomer.component.html',
-  styleUrl: './PageDetailTaskInfoCustomer.component.css'
+  selector: 'app-page-detail-task-info-repair-part-done',
+  imports: [MatFormFieldModule,FormsModule,MatIconModule,FormsModule,CommonModule,MatButtonModule,MatTableModule,MatPaginatorModule,MatSortModule],
+  templateUrl: './PageDetailTaskInfoRepairPartDone.component.html',
+  styleUrl: './PageDetailTaskInfoRepairPartDone.component.css'
 })
-export class PageDetailTaskInfoCustomerComponent implements OnInit{
+export class PageDetailTaskInfoRepairPartDoneComponent implements OnInit{
   dataDetail: { [key: string]: string | number |Date}={};
 
   private _liveAnnouncer = inject(LiveAnnouncer);
@@ -40,20 +35,20 @@ export class PageDetailTaskInfoCustomerComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   // keyDetail = Detail;
   
-  keyTrans = CustomerInfo.filter(p =>p.field === 'CustomerName' || p.field === 'CustomerPhone' || p.field === 'StatusTask' || p.field === 'ReasonBringFix');
-  amountKey : number = this.keyTrans.length;
   // lấy dữ liệu của API gửi lên
   idCustomer : number =0;
 
   idUser: number =0;
   idTask: number = 0;
-  status!: number;
   
   totalAmount : number = 0;
-  ELEMENT_DATA!: DetailTaskCustomer;
+  ELEMENT_DATA: DetailTaskListRepairDone[] = [];
 
   dataNotice = Notification;
-  dataTilte = Title;      
+  dataTilte = Title;
+
+  displayedColumns: string[] = ['RepairPartName','Price','Amount'];
+  dataSource: any;             
 
   readonly dialog = inject(MatDialog);
   
@@ -78,7 +73,6 @@ export class PageDetailTaskInfoCustomerComponent implements OnInit{
     this.dataService.currentData.subscribe((data) => {
       if (data) {  // Kiểm tra data 
         this.idTask = data.idTask;
-        this.totalAmount = data.totalAmount;
       }
       else {
         console.error('Data or maPhieu không có');
@@ -89,28 +83,30 @@ export class PageDetailTaskInfoCustomerComponent implements OnInit{
   ngOnInit(): void {      
     this.getDataFormExitFormPage(); 
     this.getDetailsTask(this.idTask);
+    this.fetchData();
+  }
+
+  fetchData() {
+    // Mô phỏng việc lấy dữ liệu từ API
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    },300); // Giả lập thời gian tải dữ liệu
   }
 
   getDetailsTask(idTask: number)
   {
-    this.api.getDetailTaskCustomer(idTask)
+    this.api.getDetailTaskListRepairPartsDone(idTask)
     .subscribe(
       (data) => {
-         this.ELEMENT_DATA = data as DetailTaskCustomer;
-
-          this.dataDetail['CustomerName'] = this.ELEMENT_DATA.CustomerName;
-          this.dataDetail['CustomerPhone'] = this.ELEMENT_DATA.CustomerPhone;
-          this.dataDetail['ReasonBringFix'] = this.ELEMENT_DATA.ReasonBringFix;
-          this.dataDetail['StatusTask'] = this.ELEMENT_DATA.StatusTask;
-
-          this.status = this.ELEMENT_DATA.StatusTask;
+         console.log(data.toRepairPartList);
+         this.ELEMENT_DATA = data.toRepairPartList as DetailTaskListRepairDone[];
+         this.totalAmount = this.ELEMENT_DATA.reduce((sum,item) => sum + (item.Amount*item.Price),0)
+         this.dataService.setData({idTask: idTask, totalAmount: this.totalAmount});
+          // nạp dữ liệu vào table
+         this.dataSource = new MatTableDataSource<DetailTaskListRepairDone>(this.ELEMENT_DATA);
       }
     ); 
-  }
-
-  ReturnExitPage()
-  {
-    this.router.navigate(['/mainApp/task']);
-    this.dataService.setData({chooseItemNav: 'task'});
+   
   }
 }

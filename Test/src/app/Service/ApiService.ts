@@ -27,9 +27,9 @@ export class ApiService {
     return this.http.get(this.baseUrl +'RepairManagement/ListRepairManagement/' + userId);
   }
 
-  getDetailTaskNotDone(userId : string): Observable<any>
+  getDetailTaskCustomer(idTask : number): Observable<any>
   {
-    return this.http.get(this.baseUrl +'RepairManagement/ReadRepairNotDone/' + userId);
+    return this.http.get(this.baseUrl +'RepairManagement/ReadRepairCustomer/' + idTask);
   }
 
   putTaskNotDoneToDone(userId : string): Observable<any>
@@ -37,7 +37,7 @@ export class ApiService {
     return this.http.put(this.baseUrl + 'RepairManagement/???????/' + userId ,{});
   }
    ////////////////////////////API RepairPart//////////////////////////////
-  getDsPhieuNhap(): Observable<any>
+  getRepairPartList(): Observable<any>
   {
     return this.http.get(this.baseUrl+'RepairPartManagement/ListRepairPartManagement');
   }

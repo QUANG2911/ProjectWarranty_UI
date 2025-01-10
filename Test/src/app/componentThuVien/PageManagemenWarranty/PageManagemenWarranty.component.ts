@@ -30,7 +30,7 @@ import { DropDownListComponent } from "../ThuVien/DropDownList/DropDownList.comp
   styleUrl: './PageManagemenWarranty.component.css'
 })
 export class PageManagementWarrantyComponent implements OnInit, AfterViewInit{
-  private _liveAnnouncer = inject(LiveAnnouncer);
+ 
 
   item!: string;
 
@@ -44,7 +44,8 @@ export class PageManagementWarrantyComponent implements OnInit, AfterViewInit{
   idUser :number = 0;
   // hàm sắp xếp
   @ViewChild(MatSort) sort!: MatSort;
-
+  private _liveAnnouncer = inject(LiveAnnouncer);
+  
   //hàm list page
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 

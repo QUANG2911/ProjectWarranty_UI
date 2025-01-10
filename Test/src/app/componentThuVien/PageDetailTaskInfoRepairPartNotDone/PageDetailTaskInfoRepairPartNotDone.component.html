@@ -1,0 +1,61 @@
+<div class="card">
+    <div class="card-head" style="padding-bottom: 0px;">
+        <p class="head-title">Thông tin linh kiện dùng</p>
+        <div class="head-content-left">
+            <div class="search-container">
+                <div class="normal-sreach">
+                    <input #inputRepairPartName
+                        type = "search" class="sreach"  placeholder="Nhập tên linh kiện"
+                        (input)="SearchRepairPart(inputRepairPartName)"
+                    />
+                    <mat-icon class="sreach-icon">find_in_page</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+        matSort (matSortChange)="announceSortChange($event)" 
+        >
+            <ng-container matColumnDef="IdRepairPart">
+            <th mat-header-cell *matHeaderCellDef> Mã linh kiện</th>
+            <td mat-cell *matCellDef="let element"> {{element.IdRepairPart}} </td>
+          </ng-container>
+
+            <ng-container matColumnDef="RepairPartName">
+              <th mat-header-cell *matHeaderCellDef> Tên linh kiện</th>
+              <td mat-cell *matCellDef="let element"> {{element.RepairPartName}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="Price">
+                <th mat-header-cell *matHeaderCellDef> Giá tiền</th>
+                <td mat-cell *matCellDef="let element"> {{element.Price | currency:'VND':'symbol':'1.0-0'}} </td>
+            </ng-container>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef> Số lượng </th>
+              <td  mat-cell *matCellDef="let element">
+                <input #inputAmountRepair class="InputAmount" type="number" required 
+                value= 0 
+                (input)="TakeAmount(inputAmountRepair,element.IdRepairPart,element.Price)">  
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="choose">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Choose </th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-checkbox (click)="checkIfSelected(element.IdRepairPart,element.Price)" ></mat-checkbox>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>       
+        <!-- <mat-paginator [pageSizeOptions]="[3]"
+            showFirstLastButtons
+            aria-label="Select page of periodic elements">
+        </mat-paginator> -->
+      </div>
+</div>

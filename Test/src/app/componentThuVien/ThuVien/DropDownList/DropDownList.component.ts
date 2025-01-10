@@ -39,7 +39,7 @@ export class DropDownListComponent implements OnInit {
     this.dataService.currentData.subscribe((data) =>
     {
       this.userChooseNarItem = data.chooseItemNav
-      console.log("chọn nar bar " + this.userChooseNarItem);
+      // console.log("chọn nar bar " + this.userChooseNarItem);
       if(this.userChooseNarItem == "warranty")
       {
         this.option = this.option1 as Option[]
@@ -49,7 +49,7 @@ export class DropDownListComponent implements OnInit {
         this.option = this.option2 as Option[]
       }
 
-      console.log(this.option);
+      // console.log(this.option);
     });
   }
 

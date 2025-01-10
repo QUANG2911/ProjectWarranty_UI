@@ -1,13 +1,13 @@
-export class DetailTaskListRepairDone{
+export class RepairPart{
     IdRepairPart !: string;
 	RepairPartName !:string;
     Price !: number;
     Amount !: number;
     constructor( 
         IdRepairPart : string,
-        Amount :number,
         RepairPartName :string,
         Price : number,
+        Amount: number
     )
     {
         this.RepairPartName = RepairPartName;

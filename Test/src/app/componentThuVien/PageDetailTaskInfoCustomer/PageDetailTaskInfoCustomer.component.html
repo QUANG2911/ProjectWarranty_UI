@@ -20,12 +20,12 @@
                 <td>{{ i + 1 }}</td>
                 <td>{{ item.label }}</td>
                 <td *ngIf="item.field == 'StatusTask';Else CaseNot">
-                  <div class="ChoDuyet"  *ngIf=" dataDetail[item.field] == 0" #CaseChoXuLy><span class="title-cho">Đang xử lý</span>  </div>
-                  <ng-template #CaseChoXuLy>
-                    <td class="DaDuyet" ><span class="title-duyet">Đã xử lý</span></td>
-                  </ng-template>
+                    <div class="ChoDuyet" *ngIf="dataDetail[item.field] === 0; else case1"><span class="title-cho">Đang xử lý</span> </div>
+                    <ng-template #case1>
+                      <div class="DaDuyet" *ngIf="dataDetail[item.field] === 1"><span class="title-duyet">Đã xử lý</span></div>
+                    </ng-template>
                 </td>
-                <ng-template #CaseNot>
+                <ng-template #CaseNot> 
                   <td >{{ dataDetail[item.field]}}</td>
                 </ng-template>
               </tr>
@@ -39,36 +39,8 @@
     </div>
   </div>
   
-<div class="card">
-    <div class="card-head" style="padding-bottom: 0px;">
-        <p class="head-title">Thông tin linh kiện dùng hàng mua</p>
-    </div>
-    <div class="card-body">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
-                matSort (matSortChange)="announceSortChange($event)" 
-        >
-            <ng-container matColumnDef="RepairPartName">
-              <th mat-header-cell *matHeaderCellDef> Tên linh kiện</th>
-              <td mat-cell *matCellDef="let element"> {{element.RepairPartName}} </td>
-            </ng-container>
-            
-            <ng-container matColumnDef="Price">
-                <th mat-header-cell *matHeaderCellDef> Giá tiền</th>
-                <td mat-cell *matCellDef="let element"> {{element.Price | currency:'VND':'symbol':'1.0-0' }} </td>
-              </ng-container>
+<app-page-detail-task-info-repair-part-done *ngIf="status === 1;else CaseNotDone"></app-page-detail-task-info-repair-part-done>
 
-            <!-- Position Column -->
-            <ng-container matColumnDef="Amount">
-              <th mat-header-cell *matHeaderCellDef> Số lượng </th>
-              <td mat-cell *matCellDef="let element"> {{element.Amount}} </td>
-            </ng-container>
-            
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>       
-        <mat-paginator [pageSizeOptions]="[3]"
-            showFirstLastButtons
-            aria-label="Select page of periodic elements">
-        </mat-paginator>
-      </div>
-</div>
+<ng-template #CaseNotDone>
+  <app-page-detail-task-info-repair-part-not-done></app-page-detail-task-info-repair-part-not-done>
+</ng-template>

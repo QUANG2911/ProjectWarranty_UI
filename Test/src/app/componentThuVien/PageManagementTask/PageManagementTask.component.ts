@@ -160,10 +160,10 @@ export class PageManagementTaskComponent implements OnInit{
   }
 
   // ham chuyen page detail
-  TransDetailTaskPage(idTask: number, status: number): void{  
+  TransDetailTaskPage(idTask: number): void{  
     if(idTask != 0) 
     {
-      this.dataService.setData({idTask: idTask, status: status});
+      this.dataService.setData({idTask: idTask});
       this.router.navigate(['/mainApp/detailTaskInfoCustomer']);
     }      
     else 
