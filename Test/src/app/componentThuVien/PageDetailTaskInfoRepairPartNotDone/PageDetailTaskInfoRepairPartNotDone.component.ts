@@ -160,7 +160,7 @@ SearchRepairPart(inputRepairPartName : any)
   
 }
 
-TakeAmount(inputAmount: any, idRepairPart: number, price: number) {
+TakeAmount(inputAmount: any, RepairPartName: string, idRepairPart: number, price: number) {
   console.log("price:", price, "/inputAmount:", inputAmount.value);
 
   const index = this.dsSelectContainer.findIndex(p => p.IdRepairPart === idRepairPart);
@@ -190,7 +190,7 @@ TakeAmount(inputAmount: any, idRepairPart: number, price: number) {
   this.dataService.setData({idTask: this.idTask, totalAmount: this.total}); 
 }
 
-checkIfSelected(idRepairPart : number, price: number)
+checkIfSelected(idRepairPart : number, RepairPartName: string, price: number)
 {
     let index = this.dsSelectContainer.filter(p=> p.IdRepairPart === idRepairPart)
 
@@ -201,9 +201,9 @@ checkIfSelected(idRepairPart : number, price: number)
     }
     else
     {
-      this.dsSelectContainer.push({IdRepairPart:idRepairPart,Amount:0,Price:price});
+      this.dsSelectContainer.push({IdRepairPart:idRepairPart,RepairPartName: RepairPartName,Amount:0,Price:price});
       // this.total = this.total + price;
-      this.TakeAmount(0,idRepairPart,price)
+      this.TakeAmount(0,RepairPartName,idRepairPart,price)
     }
     this.dataService.setData({idTask: this.idTask, totalAmount: this.total}); 
 }
