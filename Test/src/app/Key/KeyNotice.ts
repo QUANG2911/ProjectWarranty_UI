@@ -16,6 +16,7 @@ export const Notification = [
     { field: 'CustomerNotFound', label: "Không tồn tại tài khoản khách hàng này" },
     { field: 'MissingLoginInfo', label: "Vui lòng điền đầy đủ Username và Password" },
     { field: 'SelectAccountType', label: "Vui lòng chọn loại tài khoản đăng nhập" },
+    { field: 'TokenTimeLifeNotice', label: "Thời hạn đăng nhập đã hết vui lòng đăng nhập lại" },
     ]
 
 export const Title =[

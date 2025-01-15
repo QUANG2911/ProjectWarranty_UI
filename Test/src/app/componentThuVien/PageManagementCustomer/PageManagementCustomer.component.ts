@@ -15,13 +15,16 @@ import { MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import { LiveAnnouncer} from '@angular/cdk/a11y';
 
 //khai báo route
-import {RouterModule} from '@angular/router'; // dung routerLink
+import {Router, RouterModule} from '@angular/router'; // dung routerLink
 
 //khai bao ham con lay dữ liệu
 import { DataService } from '../../Service/DataService';
 import { ApiService } from '../../Service/ApiService';
 import { CustomerListItem } from '../../Model/CustomerList.Model';
 import { error } from 'console';
+import { ThongBaoComponent } from '../ThuVien/Notice/Notice.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Notification } from '../../Key/KeyNotice';
 
 @Component({
   selector: 'app-page-management-customer',
@@ -30,22 +33,22 @@ import { error } from 'console';
   styleUrl: './PageManagementCustomer.component.css'
 })
 export class PageManagementCustomerComponent implements OnInit{
-  private _liveAnnouncer = inject(LiveAnnouncer);
-
+  
   item!: string;
 
   idUser : number = 0;
   constructor(private dataService :DataService,
               private api :ApiService,
+              private router : Router
              ){}
   
   ELEMENT_DATA: CustomerListItem[] = []
-
+  readonly dialog = inject(MatDialog);
   //hàm list page
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   isLoading: boolean = false;
-         
+  dataNotice = Notification;
   //Lấy dữ liệu từ API
   getListContainer(): void{
     this.isLoading = true;
@@ -64,7 +67,12 @@ export class PageManagementCustomerComponent implements OnInit{
           this.isLoading = false;      
       },
       (error) => {
-        console.log(error);
+        console.log(error.error.message);
+        if(error.error.message === "Token hết hạn out")
+        {
+          this.GetNotification(this.dataNotice.find(n => n.field === 'TokenTimeLifeNotice')?.label.toString());
+          this.router.navigate(['/login']);
+        }        
       }
     ); 
   }
@@ -118,5 +126,15 @@ export class PageManagementCustomerComponent implements OnInit{
      this.dataService.setData({idCustomer: id});
    }
 
-   
+    //Hàm thông báo
+  GetNotification(noiDungThongBao: any){
+    this.dataService.setData({TilteThongBao: "Thông báo", NoiDungThongBao : noiDungThongBao, LoaiThongBao: 2});
+    this.openDialog('0ms', '0ms');
+  }
+  
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef =this.dialog.open(ThongBaoComponent, {
+      width: '400px'
+    });
+  }
 }

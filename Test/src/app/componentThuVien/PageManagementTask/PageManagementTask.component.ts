@@ -28,6 +28,9 @@ import { MatInputModule } from '@angular/material/input'; // Nếu cần nhập 
 import { MatButtonModule } from '@angular/material/button'; // Nếu có sử dụng button
 import { DropDownListComponent } from '../ThuVien/DropDownList/DropDownList.component';
 import { TaskList } from '../../Model/TaskList.Model';
+import { ThongBaoComponent } from '../ThuVien/Notice/Notice.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Notification } from '../../Key/KeyNotice';
 
 
 @Component({
@@ -69,7 +72,8 @@ export class PageManagementTaskComponent implements OnInit{
   dataSource: any;             
 
   originalData: TaskList[] = []; 
-  
+  dataNotice = Notification;
+  readonly dialog = inject(MatDialog);
   //Lấy dữ liệu từ API
   getListEntryForm(): void{
     this.isLoading = true;
@@ -92,6 +96,13 @@ export class PageManagementTaskComponent implements OnInit{
           this.isLoading = false;
         }           
         else console.log('Không nhận được dữ liệu');        
+      },(error) =>{
+        console.log(error.error.message);
+        if(error.error.message === "Token hết hạn out")
+        {
+          this.GetNotification(this.dataNotice.find(n => n.field === 'TokenTimeLifeNotice')?.label.toString());
+          this.router.navigate(['/login']);
+        }
       }
     ); 
   }
@@ -168,5 +179,17 @@ export class PageManagementTaskComponent implements OnInit{
     }      
     else 
       console.log('maNhap is null');
+  }
+
+  //Hàm thông báo
+  GetNotification(noiDungThongBao: any){
+    this.dataService.setData({TilteThongBao: "Thông báo", NoiDungThongBao : noiDungThongBao, LoaiThongBao: 2});
+    this.openDialog('0ms', '0ms');
+  }
+  
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef =this.dialog.open(ThongBaoComponent, {
+      width: '400px'
+    });
   }
 }

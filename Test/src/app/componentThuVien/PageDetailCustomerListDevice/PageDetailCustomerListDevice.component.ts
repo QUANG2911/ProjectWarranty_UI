@@ -119,6 +119,13 @@ export class PageDetailCustomerListDeviceComponent implements OnInit{
           this.originalData = this.ELEMENT_DATA;
 
           console.log(this.originalData);     
+      },(error) =>{
+        console.log(error.error.message);
+        if(error.error.message === "Token hết hạn out")
+        {
+          this.GetNotification(this.dataNotice.find(n => n.field === 'TokenTimeLifeNotice')?.label.toString());
+          this.router.navigate(['/login']);
+        }
       }
     ); 
   }
@@ -127,5 +134,15 @@ export class PageDetailCustomerListDeviceComponent implements OnInit{
   {
     this.router.navigate(['/mainApp/customer']);
   }
-
+  //Hàm thông báo
+  GetNotification(noiDungThongBao: any){
+    this.dataService.setData({TilteThongBao: "Thông báo", NoiDungThongBao : noiDungThongBao, LoaiThongBao: 2});
+    this.openDialog('0ms', '0ms');
+  }
+  
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef =this.dialog.open(ThongBaoComponent, {
+      width: '400px'
+    });
+  }
 }

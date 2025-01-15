@@ -15,14 +15,17 @@ import { MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import { LiveAnnouncer} from '@angular/cdk/a11y';
 
 //khai báo route
-import {RouterModule} from '@angular/router'; // dung routerLink
+import {Router, RouterModule} from '@angular/router'; // dung routerLink
 
 //khai bao ham con lay dữ liệu
 import { DataService } from '../../Service/DataService';
 import { ApiService } from '../../Service/ApiService';
 import { WarramtyRecordList } from '../../Model/WarrantyList.Model';
-import { timeEnd } from 'console';
+import { error, timeEnd } from 'console';
 import { DropDownListComponent } from "../ThuVien/DropDownList/DropDownList.component";
+import { Notification } from '../../Key/KeyNotice';
+import { ThongBaoComponent } from '../ThuVien/Notice/Notice.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-page-management-warranty',
   imports: [CommonModule, MatSortModule, MatTableModule, MatPaginatorModule, MatIconModule, FormsModule, MatFormFieldModule, FormsModule, RouterModule, DropDownListComponent],
@@ -38,6 +41,7 @@ export class PageManagementWarrantyComponent implements OnInit, AfterViewInit{
 
   constructor(private dataService :DataService,
               private api :ApiService,
+              private router: Router
              ){}
   
   ELEMENT_DATA: WarramtyRecordList[] = []
@@ -51,6 +55,8 @@ export class PageManagementWarrantyComponent implements OnInit, AfterViewInit{
 
   isLoading: boolean = false;
          
+  dataNotice = Notification;
+  readonly dialog = inject(MatDialog);
   //Lấy dữ liệu từ API
   getListContainer(): void{
     this.isLoading = true;
@@ -76,6 +82,13 @@ export class PageManagementWarrantyComponent implements OnInit, AfterViewInit{
           this.isLoading = false;
           console.log('Không nhận được dữ liệu');        
         } 
+      },(error) =>{
+        console.log(error.error.message);
+        if(error.error.message === "Token hết hạn out")
+        {
+          this.GetNotification(this.dataNotice.find(n => n.field === 'TokenTimeLifeNotice')?.label.toString());
+          this.router.navigate(['/login']);
+        }
       }
     ); 
   }
@@ -176,5 +189,16 @@ export class PageManagementWarrantyComponent implements OnInit, AfterViewInit{
        this.dataSource.data = this.originalData;
      }
    }
- 
+   
+    //Hàm thông báo
+  GetNotification(noiDungThongBao: any){
+    this.dataService.setData({TilteThongBao: "Thông báo", NoiDungThongBao : noiDungThongBao, LoaiThongBao: 2});
+    this.openDialog('0ms', '0ms');
+  }
+  
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef =this.dialog.open(ThongBaoComponent, {
+      width: '400px'
+    });
+  }
 }

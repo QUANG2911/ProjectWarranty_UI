@@ -277,6 +277,13 @@ openDialogApi(enterAnimationDuration: string, exitAnimationDuration: string, wid
             let title: any = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
             let content: any = this.dataNotice.find(n => n.field === 'ApprovalError')?.label.toString();
             this.GetNotification(title,content,2,'400px',false);
+
+            if(error.error.message === "Token hết hạn out")
+            {
+              content = this.dataNotice.find(n => n.field === 'TokenTimeLifeNotice')?.label.toString();
+              this.GetNotification(title,content,2,'600px',false);
+              this.router.navigate(['/login']);
+            }
           }
         );
       }

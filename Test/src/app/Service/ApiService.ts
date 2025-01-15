@@ -60,7 +60,6 @@ export class ApiService {
 
   getListCustomer(userId: number): Observable<any>
   {
-
     const headers = this.createAuthHeaders();
     return this.http.get(this.baseUrl +'CustomerManagement/ListCustomerManagement/' + userId,{headers});
   }
