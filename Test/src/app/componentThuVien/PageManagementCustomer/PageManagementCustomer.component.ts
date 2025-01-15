@@ -89,7 +89,7 @@ export class PageManagementCustomerComponent implements OnInit{
     // Mô phỏng việc lấy dữ liệu từ API
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
-    }, 400); // Giả lập thời gian tải dữ liệu
+    }, 600); // Giả lập thời gian tải dữ liệu
   }
 
   //thêm số lượng cột ở đây

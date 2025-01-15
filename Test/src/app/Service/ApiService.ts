@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,13 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
+   // Phương thức tạo header chung
+   private createAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      authorization: `Bearer ${localStorage.getItem('jwt')}`
+    });
+  }
+
   ////////////////////////////API TASK MANAGER//////////////////////////////
   getDetailTaskListRepairPartsDone(idTask: number): Observable<any> {
     return this.http.get(this.baseUrl +'RepairManagement/ReadRepairDone/' + idTask);
@@ -24,7 +31,8 @@ export class ApiService {
 
   getListTask(userId : number): Observable<any>
   {
-    return this.http.get(this.baseUrl +'RepairManagement/ListRepairManagement/' + userId);
+    const headers = this.createAuthHeaders();
+    return this.http.get(this.baseUrl +'RepairManagement/ListRepairManagement/' + userId,{headers});
   }
 
   getDetailTaskCustomer(idTask : number): Observable<any>
@@ -34,7 +42,8 @@ export class ApiService {
 
   putTaskNotDoneToDone(userId : number, idTask: number, statusTask: number, data: any): Observable<any>
   {
-    return this.http.put(this.baseUrl + 'RepairManagement/UpdateRepairManagement/' + userId +'/'+idTask+'/'+statusTask,data);
+    const headers = this.createAuthHeaders();
+    return this.http.put(this.baseUrl + 'RepairManagement/UpdateRepairManagement/' + userId +'/'+idTask+'/'+statusTask,data,{headers});
   }
    ////////////////////////////API RepairPart//////////////////////////////
   getRepairPartList(): Observable<any>
@@ -45,23 +54,32 @@ export class ApiService {
   ///////////////////////////API CUSTOMER////////////////////////////
   getDetailCustomerListDevice(userId: number, idCustomer: number): Observable<any>
   {
-    return this.http.get(this.baseUrl +'CustomerManagement/ReadCustomerManagement/' + userId +"/" +idCustomer);
+    const headers = this.createAuthHeaders();
+    return this.http.get(this.baseUrl +'CustomerManagement/ReadCustomerManagement/' + userId +"/" +idCustomer,{headers});
   }
 
   getListCustomer(userId: number): Observable<any>
   {
-    return this.http.get(this.baseUrl +'CustomerManagement/ListCustomerManagement/' + userId);
+
+    const headers = this.createAuthHeaders();
+    return this.http.get(this.baseUrl +'CustomerManagement/ListCustomerManagement/' + userId,{headers});
   }
 
   ///////////////////////////API LOGIN////////////////////////////
   getLoginUser(userId : string, pass : string): Observable<any>
   {
-    return this.http.get(this.baseUrl + 'LoginManagement/GetLogin/'+userId + "/" + pass);
+    return this.http.get(this.baseUrl + 'LoginManagement/GetLogin/'+userId + "/" + pass).pipe(
+      tap((reponse: any) =>{
+        localStorage.setItem('jwt',reponse.token);
+        console.log(reponse.token);
+      })
+    );
   }
 
   ///////////////////////////API LOGIN////////////////////////////
   getWarrantyRecordManagement(userId : number): Observable<any>
   {
-    return this.http.get(this.baseUrl + 'WarrantyRecordManagement/GetListWarrantyRecordManagement/'+userId );
+    const headers = this.createAuthHeaders();
+    return this.http.get(this.baseUrl + 'WarrantyRecordManagement/GetListWarrantyRecordManagement/'+userId,{headers});
   }
 }
