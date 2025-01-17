@@ -48,6 +48,8 @@ export class PageManagementTaskComponent implements OnInit{
   constructor(private dataService :DataService,
               private api :ApiService,
               private router : Router
+
+              
              ){}
   
   //// biến để hứng dữ liệu từ API
@@ -84,10 +86,18 @@ export class PageManagementTaskComponent implements OnInit{
         {
           this.ELEMENT_DATA = data.toList as TaskList[];
 
-          console.log(this.ELEMENT_DATA);
           // nạp dữ liệu vào table
           this.dataSource = new MatTableDataSource<TaskList>(this.ELEMENT_DATA);
           
+          // kiểu ngày dữ liệu cột đẩy qua
+          this.dataSource.sortingDataAccessor =(item: any, property: string): any=> {
+            if (property === 'DateOfTask' || property === 'DateOfWarranty') {
+              const date = new Date(item.DateOfTask);
+              return isNaN(date.getTime()) ? 0 : date.getTime();
+            }
+            return item[property];
+          };
+
           this.originalData = this.ELEMENT_DATA;
 
           //select trạng thái
@@ -107,6 +117,7 @@ export class PageManagementTaskComponent implements OnInit{
     ); 
   }
 
+  
   getListWithStatus()
   {
       this.dataService.getData();
@@ -133,7 +144,7 @@ export class PageManagementTaskComponent implements OnInit{
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    },500); // Giả lập thời gian tải dữ liệu
+    },600); // Giả lập thời gian tải dữ liệu
   }
   
    // hàm sreach  

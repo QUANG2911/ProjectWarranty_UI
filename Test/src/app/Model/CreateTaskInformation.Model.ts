@@ -1,28 +1,28 @@
 export class TaskInformation{
-    customerName !:string;
-	customerEmail !:string;
-	customerPhone !:string;
-	deviceName !:string;
-	idWarrantRecord !:number;
-	reasonBringFix !:string;
-    customerAddress !: string;
+    CustomerName !:string;
+	CustomerEmail !:string;
+	CustomerPhone !:string;
+	DeviceName !:string;
+	IdWarrantRecord !:number;
+	ReasonBringFix !:string;
+    CustomerAddress !: string;
 
-
-    constructor( customerName :string,
-        customerEmail :string,
-        customerPhone :string,
-        deviceName :string,
-        idWarrantRecord :number,
-        reasonBringFix :string,
-        customerAddress : string
+    constructor( CustomerName :string,
+        CustomerEmail :string,
+        CustomerPhone :string,
+        DeviceName :string,
+        IdWarrantRecord :number,
+        ReasonBringFix :string,
+        CustomerAddress : string
     )
     {
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
-        this.customerPhone = customerPhone;
-        this.deviceName = deviceName;
-        this.idWarrantRecord = idWarrantRecord;
-        this.reasonBringFix = reasonBringFix;
-        this.customerAddress = customerAddress;
+        this.CustomerName = CustomerName;
+        this.CustomerEmail = CustomerEmail;
+        this.CustomerPhone = CustomerPhone;
+        this.DeviceName = DeviceName;
+        this.IdWarrantRecord = IdWarrantRecord;
+        this.ReasonBringFix = ReasonBringFix;
+        this.CustomerAddress = CustomerAddress;
     }
 }
+

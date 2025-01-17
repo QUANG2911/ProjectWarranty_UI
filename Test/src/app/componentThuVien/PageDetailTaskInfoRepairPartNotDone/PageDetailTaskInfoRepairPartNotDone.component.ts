@@ -77,7 +77,11 @@ total:  number = 0;
 status : number = 0;
 dataNotice = Notification;
 dataTilte = Title;
-
+width: string = '300px';
+susscess: boolean = true;
+title: any = '';
+content: any = '';
+typeNotification: number = 1;
 ////////////check box////////////
 dsSelectContainer : selectList[] = [] ;
 
@@ -211,11 +215,9 @@ checkIfSelected(idRepairPart : number, RepairPartName: string, price: number)
 
 UpdateStatus(status: number)
 {
-    let width: string = '300px';
-    let susscess: boolean = true;
-    let title: any = '';
-    let content: any = '';
-    let typeNotification: number = 1;
+    this.width= '300px';
+    this.susscess = true;
+    this.typeNotification = 1;
 
     this.status = status
 
@@ -223,24 +225,23 @@ UpdateStatus(status: number)
 
     if(status == 1)
     {
-      width = '400px';
-      title = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
-      content = this.dataNotice.find(n => n.field === 'ConfirmApproval')?.label.toString(); 
+      this.width = '400px';
+      this.title = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
+      this.content = this.dataNotice.find(n => n.field === 'ConfirmApproval')?.label.toString(); 
     }
     else if (status == 2)
     {
-      width = '400px';
-      title = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
-      content = this.dataNotice.find(n => n.field === 'ConfirmRejection')?.label.toString(); 
+      this.width = '400px';
+      this.title = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
+      this.content = this.dataNotice.find(n => n.field === 'ConfirmRejection')?.label.toString(); 
     }
-   
     
-    this.GetNotification(title,content,typeNotification,width,susscess);
+    this.GetNotification(this.title,this.content,this.typeNotification,this.width,this.susscess);
 }
 
 GetNotification(title: any, content: any, typeNotification : number, width: string, susscess: boolean)
 {
-  this.dataService.setData({TilteThongBao: title, maNhap: "", NoiDungThongBao : content, LoaiThongBao: typeNotification,idUser: this.idUser,idTask:this.idTask });
+  this.dataService.setData({TilteThongBao: title, maNhap: "", NoiDungThongBao : content, LoaiThongBao: typeNotification,idUser: this.idUser,idTask:this.idTask,chooseItemNav: 'task'});
   
   this.openDialogApi('0ms', '0ms',width,susscess);
 }
@@ -267,21 +268,26 @@ openDialogApi(enterAnimationDuration: string, exitAnimationDuration: string, wid
         };
         this.api.putTaskNotDoneToDone(this.idUser,this.idTask,this.status,body).subscribe(
           (reponse) => {
-            console.log("Api thành công: "+reponse);
-            let title: any = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
-            let content: any = this.dataNotice.find(n => n.field === 'UpdateStatusSuccess')?.label.toString();
-            this.GetNotification(title,content,2,'400px',false);
+            console.log("Api thành công: "+reponse); 
+
+            this.title = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
+            this.content = this.dataNotice.find(n => n.field === 'UpdateStatusSuccess')?.label.toString();
+            this.width = '400px';
+            this.typeNotification = 2;
+            this.susscess = false;
+            this.GetNotification(this.title,this.content,this.typeNotification,this.width,this.susscess);
+           
             this.router.navigate(['/mainApp/task']);
           },
           (error) =>{
-            let title: any = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
-            let content: any = this.dataNotice.find(n => n.field === 'ApprovalError')?.label.toString();
-            this.GetNotification(title,content,2,'400px',false);
-
             if(error.error.message === "Token hết hạn out")
             {
-              content = this.dataNotice.find(n => n.field === 'TokenTimeLifeNotice')?.label.toString();
-              this.GetNotification(title,content,2,'600px',false);
+              this.title = this.dataTilte.find(n => n.field === 'Notice')?.label.toString();
+              this.content = this.dataNotice.find(n => n.field === 'TokenTimeLifeNotice')?.label.toString();
+              this.width = '600px';
+              this.typeNotification = 2;
+              this.susscess = false;
+              this.GetNotification(this.title,this.content,this.typeNotification,this.width,this.susscess);
               this.router.navigate(['/login']);
             }
           }

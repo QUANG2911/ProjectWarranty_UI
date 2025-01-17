@@ -69,6 +69,14 @@ export class PageManagementWarrantyComponent implements OnInit, AfterViewInit{
           // nạp dữ liệu vào table
           this.dataSource = new MatTableDataSource<WarramtyRecordList>(this.ELEMENT_DATA);
           //
+          this.dataSource.sortingDataAccessor =(item: any, property: string): any=> {
+            if (property === 'DateOfResig' || property === 'TimeEnd') {
+              const date = new Date(item.DateOfTask);
+              return isNaN(date.getTime()) ? 0 : date.getTime();
+            }
+            return item[property];
+          };
+
           this.originalData = this.ELEMENT_DATA;
 
           console.log(this.originalData);

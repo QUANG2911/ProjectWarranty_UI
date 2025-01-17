@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { TaskInformation } from '../Model/CreateTaskInformation.Model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +26,18 @@ export class ApiService {
     return this.http.get(this.baseUrl +'RepairManagement/ReadRepairDone/' + idTask);
   }
 
-  postCreateNewTask(data: any): Observable<any>{    
-    return this.http.post<any>(this.baseUrl + 'RepairManagement/CreateRepairManagement' ,data);
+  postCreateNewTask(data: TaskInformation): Observable<any>{   
+    const payload = {
+      CustomerName: data.CustomerName,
+      CustomerEmail: data.CustomerEmail,
+      CustomerPhone: data.CustomerPhone,
+      DeviceName: data.DeviceName,
+      IdWarrantRecord: Number(data.IdWarrantRecord),
+      ReasonBringFix: data.ReasonBringFix,
+      CustomerAddress: data.CustomerAddress
+    }; 
+   // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(`${this.baseUrl}RepairManagement/CreateRepairManagement`, payload);
   }
 
   getListTask(userId : number): Observable<any>
